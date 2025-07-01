@@ -64,7 +64,9 @@ class MainViewModel(app: Application, private val repo: RideRepository) : Androi
                         val ridesList = listOf(
                             Ride("1", pickupAddress, "Madhapur", 50.0),
                             Ride("2", pickupAddress, "Madhapur", 60.0),
-                            Ride("3", pickupAddress, "Madhapur", 70.0)
+                            Ride("3", pickupAddress, "Madhapur", 70.0),
+                            Ride("4", pickupAddress, "Gachibowli", 80.0),
+                            Ride("5", pickupAddress, "Kondapur", 90.0)
                         )
                         rides = ridesList
                         selectedRide = ridesList.first()
@@ -75,7 +77,9 @@ class MainViewModel(app: Application, private val repo: RideRepository) : Androi
                     val ridesList = listOf(
                         Ride("1", pickupAddress, "Madhapur", 50.0),
                         Ride("2", pickupAddress, "Madhapur", 60.0),
-                        Ride("3", pickupAddress, "Madhapur", 70.0)
+                        Ride("3", pickupAddress, "Madhapur", 70.0),
+                        Ride("4", pickupAddress, "Gachibowli", 80.0),
+                        Ride("5", pickupAddress, "Kondapur", 90.0)
                     )
                     rides = ridesList
                     selectedRide = ridesList.first()
@@ -86,7 +90,9 @@ class MainViewModel(app: Application, private val repo: RideRepository) : Androi
                 val ridesList = listOf(
                     Ride("1", pickupAddress, "Madhapur", 50.0),
                     Ride("2", pickupAddress, "Madhapur", 60.0),
-                    Ride("3", pickupAddress, "Madhapur", 70.0)
+                    Ride("3", pickupAddress, "Madhapur", 70.0),
+                    Ride("4", pickupAddress, "Gachibowli", 80.0),
+                    Ride("5", pickupAddress, "Kondapur", 90.0)
                 )
                 rides = ridesList
                 selectedRide = ridesList.first()
@@ -158,7 +164,9 @@ class MainViewModel(app: Application, private val repo: RideRepository) : Androi
             val ridesList = listOf(
                 Ride("1", defaultPickup, "Madhapur", 50.0),
                 Ride("2", defaultPickup, "Madhapur", 60.0),
-                Ride("3", defaultPickup, "Madhapur", 70.0)
+                Ride("3", defaultPickup, "Madhapur", 70.0),
+                Ride("4", defaultPickup, "Gachibowli", 80.0),
+                Ride("5", defaultPickup, "Kondapur", 90.0)
             )
             rides = ridesList
             selectedRide = ridesList.first()

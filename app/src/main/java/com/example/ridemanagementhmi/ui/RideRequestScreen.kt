@@ -34,6 +34,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import org.koin.androidx.compose.getViewModel
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 
 @Composable
 fun RideRequestScreen(
@@ -66,15 +68,14 @@ fun RideRequestScreen(
                 color = Color.White,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            Row(
+            LazyRow(
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                rides.forEach { ride ->
+                items(rides) { ride ->
                     Card(
                         modifier = Modifier
-                            .weight(1f)
                             .height(300.dp),
                         shape = RoundedCornerShape(16.dp),
                         elevation = androidx.compose.material3.CardDefaults.elevatedCardElevation(defaultElevation = 12.dp),
@@ -118,7 +119,7 @@ fun RideRequestScreen(
                                 )
                             }
                             Text(
-                                "Cost: 	${ride.cost}",
+                                "Cost: \t${ride.cost}",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontSize = 18.sp),
                                 color = Color(0xFF00E676),
                                 modifier = Modifier.padding(bottom = 16.dp)

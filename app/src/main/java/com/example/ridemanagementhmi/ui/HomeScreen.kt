@@ -55,6 +55,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+
 
 @Composable
 fun HomeScreen(viewModel: MainViewModel = getViewModel()) {
@@ -167,88 +170,93 @@ fun HomeScreen(viewModel: MainViewModel = getViewModel()) {
                 color = Color(0xFF424242)
             )
             // 30% Rides List
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .weight(0.3f)
                     .fillMaxHeight()
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                contentPadding = PaddingValues(bottom = 80.dp)
             ) {
                 val onGoingRide = selectedRide
                 val remainingRides = rides.filter { it.id != onGoingRide?.id }
                 if (onGoingRide != null) {
-                    Text(
-                        "On Going Ride",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        color = Color.White,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                    Card(
-                        modifier = Modifier
-                            .padding(vertical = 8.dp, horizontal = 4.dp)
-                            .fillMaxWidth()
-                            .shadow(12.dp, RoundedCornerShape(16.dp))
-                            .border(
-                                width = 3.dp,
-                                color = Color(0xFF00E676),
-                                shape = RoundedCornerShape(16.dp)
-                            )
-                            .clickable {
-                                viewModel.showHome = false
-                                viewModel.showMapScreen = true
-                            },
-                        shape = RoundedCornerShape(16.dp),
-                        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 12.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFF181A1B))
-                    ) {
-                        Column(Modifier.padding(20.dp)) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Surface(
-                                    shape = CircleShape,
-                                    color = Color(0xFF212121),
-                                    modifier = Modifier.size(36.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.LocationOn,
-                                        contentDescription = "Pickup",
-                                        tint = Color(0xFF00B0FF),
-                                        modifier = Modifier.size(24.dp).padding(6.dp)
-                                    )
+                    item {
+                        Text(
+                            "On Going Ride",
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            color = Color.White,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Card(
+                            modifier = Modifier
+                                .padding(vertical = 8.dp, horizontal = 4.dp)
+                                .fillMaxWidth()
+                                .shadow(12.dp, RoundedCornerShape(16.dp))
+                                .border(
+                                    width = 3.dp,
+                                    color = Color(0xFF00E676),
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .clickable {
+                                    viewModel.showHome = false
+                                    viewModel.showMapScreen = true
+                                },
+                            shape = RoundedCornerShape(16.dp),
+                            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 12.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFF181A1B))
+                        ) {
+                            Column(Modifier.padding(20.dp)) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Surface(
+                                        shape = CircleShape,
+                                        color = Color(0xFF212121),
+                                        modifier = Modifier.size(36.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.LocationOn,
+                                            contentDescription = "Pickup",
+                                            tint = Color(0xFF00B0FF),
+                                            modifier = Modifier.size(24.dp).padding(6.dp)
+                                        )
+                                    }
+                                    Spacer(Modifier.width(12.dp))
+                                    Text("Pickup: ${onGoingRide.pickup}", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = Color.White)
                                 }
-                                Spacer(Modifier.width(12.dp))
-                                Text("Pickup: ${onGoingRide.pickup}", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = Color.White)
-                            }
-                            Spacer(Modifier.height(8.dp))
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Surface(
-                                    shape = CircleShape,
-                                    color = Color(0xFF212121),
-                                    modifier = Modifier.size(36.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Place,
-                                        contentDescription = "Drop",
-                                        tint = Color(0xFF00E676),
-                                        modifier = Modifier.size(24.dp).padding(6.dp)
-                                    )
+                                Spacer(Modifier.height(8.dp))
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Surface(
+                                        shape = CircleShape,
+                                        color = Color(0xFF212121),
+                                        modifier = Modifier.size(36.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Place,
+                                            contentDescription = "Drop",
+                                            tint = Color(0xFF00E676),
+                                            modifier = Modifier.size(24.dp).padding(6.dp)
+                                        )
+                                    }
+                                    Spacer(Modifier.width(12.dp))
+                                    Text("Drop: ${onGoingRide.drop}", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = Color.White)
                                 }
-                                Spacer(Modifier.width(12.dp))
-                                Text("Drop: ${onGoingRide.drop}", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, color = Color.White)
+                                Spacer(Modifier.height(8.dp))
+                                Text("Cost: \u20b9${onGoingRide.cost}", style = MaterialTheme.typography.bodyMedium, color = Color(0xFF00E676), fontWeight = FontWeight.SemiBold)
                             }
-                            Spacer(Modifier.height(8.dp))
-                            Text("Cost: ₹${onGoingRide.cost}", style = MaterialTheme.typography.bodyMedium, color = Color(0xFF00E676), fontWeight = FontWeight.SemiBold)
                         }
                     }
                 }
                 if (remainingRides.isNotEmpty()) {
-                    Text(
-                        "New Rides",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        color = Color(0xFF00B0FF),
-                        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
-                    )
-                    remainingRides.forEach { ride ->
+                    item {
+                        Text(
+                            "New Rides",
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                            color = Color(0xFF00B0FF),
+                            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        )
+                    }
+                    items(remainingRides) { ride ->
                         Card(
                             modifier = Modifier
                                 .padding(vertical = 8.dp, horizontal = 4.dp)
@@ -298,7 +306,7 @@ fun HomeScreen(viewModel: MainViewModel = getViewModel()) {
                                     Text("Drop: ${ride.drop}", style = MaterialTheme.typography.bodyLarge, color = Color.White)
                                 }
                                 Spacer(Modifier.height(6.dp))
-                                Text("Cost: ₹${ride.cost}", style = MaterialTheme.typography.bodyMedium, color = Color(0xFF00E676))
+                                Text("Cost: \u20b9${ride.cost}", style = MaterialTheme.typography.bodyMedium, color = Color(0xFF00E676))
                                 Row(
                                     modifier = Modifier.padding(top = 8.dp),
                                     horizontalArrangement = Arrangement.End
@@ -315,7 +323,9 @@ fun HomeScreen(viewModel: MainViewModel = getViewModel()) {
                     }
                 }
                 if (onGoingRide == null && remainingRides.isEmpty()) {
-                    Text("No rides available.", color = Color.Gray)
+                    item {
+                        Text("No rides available.", color = Color.Gray)
+                    }
                 }
             }
         }
