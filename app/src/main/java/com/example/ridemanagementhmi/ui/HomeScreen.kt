@@ -193,7 +193,11 @@ fun HomeScreen(viewModel: MainViewModel = getViewModel()) {
                                 width = 3.dp,
                                 color = Color(0xFF00E676),
                                 shape = RoundedCornerShape(16.dp)
-                            ),
+                            )
+                            .clickable {
+                                viewModel.showHome = false
+                                viewModel.showMapScreen = true
+                            },
                         shape = RoundedCornerShape(16.dp),
                         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 12.dp),
                         colors = CardDefaults.cardColors(containerColor = Color(0xFF181A1B))
@@ -239,7 +243,7 @@ fun HomeScreen(viewModel: MainViewModel = getViewModel()) {
                 }
                 if (remainingRides.isNotEmpty()) {
                     Text(
-                        "Remaining Rides",
+                        "New Rides",
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xFF00B0FF),
                         modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
@@ -469,7 +473,7 @@ fun FuelGauge(fuel: Float, modifier: Modifier = Modifier) {
                 strokeWidth = 3f
             )
         }
-        Icon(Icons.Default.GasMeter, contentDescription = "Fuel", tint = needleColor, modifier = Modifier.size(20.dp))
+        Icon(Icons.Default.GasMeter, contentDescription = "Fuel", tint = needleColor, modifier = Modifier.size(36.dp))
         Text(
             text = "${(fuel*100).toInt()}%",
             fontSize = 12.sp,

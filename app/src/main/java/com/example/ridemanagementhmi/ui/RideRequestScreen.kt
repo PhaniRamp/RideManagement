@@ -1,5 +1,6 @@
 package com.example.ridemanagementhmi.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -27,7 +30,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CarRepair
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -37,7 +42,19 @@ fun RideRequestScreen(
     onReject: (Ride) -> Unit
 ) {
     val viewModel: com.example.ridemanagementhmi.viewmodel.MainViewModel = getViewModel()
-    Box(Modifier.fillMaxSize()) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFF232526),
+                        Color(0xFF0F2027),
+                        Color.Black
+                    )
+                )
+            )
+    ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center,
@@ -45,7 +62,8 @@ fun RideRequestScreen(
         ) {
             Text(
                 "Incoming Ride Requests",
-                style = MaterialTheme.typography.titleLarge.copy(fontSize = 24.sp),
+                style = MaterialTheme.typography.titleLarge.copy(fontSize = 24.sp, fontWeight = FontWeight.Bold),
+                color = Color.White,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Row(
@@ -58,6 +76,9 @@ fun RideRequestScreen(
                         modifier = Modifier
                             .weight(1f)
                             .height(300.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = androidx.compose.material3.CardDefaults.elevatedCardElevation(defaultElevation = 12.dp),
+                        colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = Color(0xFF181A1B))
                     ) {
                         Column(
                             modifier = Modifier
@@ -70,12 +91,14 @@ fun RideRequestScreen(
                                 Icon(
                                     imageVector = Icons.Default.LocationOn,
                                     contentDescription = "Pickup",
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = Color(0xFF00B0FF),
+                                    modifier = Modifier.size(24.dp)
                                 )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
                                     "Pickup: ${ride.pickup}",
-                                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                                    color = Color.White,
                                     modifier = Modifier.padding(bottom = 8.dp)
                                 )
                             }
@@ -83,19 +106,21 @@ fun RideRequestScreen(
                                 Icon(
                                     imageVector = Icons.Default.Place,
                                     contentDescription = "Drop",
-                                    tint = Color(0xFF388E3C)
+                                    tint = Color(0xFF00E676),
+                                    modifier = Modifier.size(24.dp)
                                 )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
                                     "Drop: ${ride.drop}",
-                                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                                    color = Color.White,
                                     modifier = Modifier.padding(bottom = 8.dp)
                                 )
                             }
                             Text(
-                                "Cost: ₹${ride.cost}",
+                                "Cost: 	${ride.cost}",
                                 style = MaterialTheme.typography.bodyMedium.copy(fontSize = 18.sp),
-                                color = MaterialTheme.colorScheme.primary,
+                                color = Color(0xFF00E676),
                                 modifier = Modifier.padding(bottom = 16.dp)
                             )
                             Row(

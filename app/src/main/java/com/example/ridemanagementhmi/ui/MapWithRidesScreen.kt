@@ -166,24 +166,24 @@ fun MapWithRidesScreen(
                         .fillMaxSize()
                         .padding(8.dp)
                 ) {
-                    Text(
-                        "Rides",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(bottom = 12.dp)
-                    )
-                    rides.forEach { ride ->
-                        val isSelected = selectedRide?.id == ride.id
+                    val onGoingRide = selectedRide
+                    val newRides = rides.filter { it.id != onGoingRide?.id }
+                    if (onGoingRide != null) {
+                        Text(
+                            "On Going Ride",
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
                         Card(
                             modifier = Modifier
                                 .padding(vertical = 8.dp, horizontal = 4.dp)
                                 .fillMaxWidth()
                                 .border(
-                                    width = if (isSelected) 3.dp else 1.dp,
-                                    color = if (isSelected) MaterialTheme.colorScheme.primary else Color.LightGray,
+                                    width = 3.dp,
+                                    color = MaterialTheme.colorScheme.primary,
                                     shape = RoundedCornerShape(12.dp)
-                                )
-                                .clickable { viewModel.selectRide(ride) },
+                                ),
                             shape = RoundedCornerShape(12.dp),
                             elevation = cardElevation,
                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
@@ -191,15 +191,6 @@ fun MapWithRidesScreen(
                             Column(
                                 Modifier.padding(16.dp)
                             ) {
-                                if (isSelected) {
-                                    Text(
-                                        "On Going Ride",
-                                        color = MaterialTheme.colorScheme.primary,
-                                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                        fontSize = 18.sp,
-                                        modifier = Modifier.padding(bottom = 8.dp)
-                                    )
-                                }
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Icon(
                                         imageVector = Icons.Default.LocationOn,
@@ -214,7 +205,7 @@ fun MapWithRidesScreen(
                                     )
                                 }
                                 Text(
-                                    ride.pickup,
+                                    onGoingRide.pickup,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(start = 32.dp, bottom = 8.dp)
@@ -233,7 +224,7 @@ fun MapWithRidesScreen(
                                     )
                                 }
                                 Text(
-                                    ride.drop,
+                                    onGoingRide.drop,
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(start = 32.dp, bottom = 8.dp)
@@ -246,12 +237,90 @@ fun MapWithRidesScreen(
                                     )
                                     Spacer(Modifier.width(8.dp))
                                     Text(
-                                        "₹${ride.cost}",
+                                        "₹${onGoingRide.cost}",
                                         style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
                                         color = MaterialTheme.colorScheme.secondary
                                     )
                                 }
-                                if (!isSelected) {
+                            }
+                        }
+                    }
+                    if (newRides.isNotEmpty()) {
+                        Text(
+                            "New Rides",
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = androidx.compose.ui.text.font.FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                        )
+                        newRides.forEach { ride ->
+                            Card(
+                                modifier = Modifier
+                                    .padding(vertical = 8.dp, horizontal = 4.dp)
+                                    .fillMaxWidth()
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color.LightGray,
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
+                                    .clickable { viewModel.selectRide(ride) },
+                                shape = RoundedCornerShape(12.dp),
+                                elevation = cardElevation,
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                            ) {
+                                Column(
+                                    Modifier.padding(16.dp)
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            imageVector = Icons.Default.LocationOn,
+                                            contentDescription = "Pickup",
+                                            tint = MaterialTheme.colorScheme.primary
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            "Pickup:",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
+                                    Text(
+                                        ride.pickup,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        modifier = Modifier.padding(start = 32.dp, bottom = 8.dp)
+                                    )
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            imageVector = Icons.Default.Place,
+                                            contentDescription = "Drop",
+                                            tint = Color(0xFF388E3C)
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            "Drop:",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = Color(0xFF388E3C)
+                                        )
+                                    }
+                                    Text(
+                                        ride.drop,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        modifier = Modifier.padding(start = 32.dp, bottom = 8.dp)
+                                    )
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            "Cost:",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = MaterialTheme.colorScheme.secondary
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(
+                                            "₹${ride.cost}",
+                                            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp),
+                                            color = MaterialTheme.colorScheme.secondary
+                                        )
+                                    }
                                     Row(
                                         modifier = Modifier.padding(top = 12.dp),
                                         horizontalArrangement = Arrangement.End
@@ -266,6 +335,9 @@ fun MapWithRidesScreen(
                                 }
                             }
                         }
+                    }
+                    if (onGoingRide == null && newRides.isEmpty()) {
+                        Text("No rides available.", color = Color.Gray)
                     }
                 }
             }
